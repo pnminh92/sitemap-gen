@@ -4,7 +4,7 @@ $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
 require 'sitemap_gen/version'
 
 Gem::Specification.new do |spec|
-  spec.name          = "sitemap-gen"
+  spec.name          = "sitemap_gen"
   spec.version       = SitemapGen::VERSION
   spec.authors       = ["Minh Phan"]
   spec.email         = ["wofi.minh@1pac.vn"]
@@ -25,6 +25,8 @@ Gem::Specification.new do |spec|
   spec.bindir        = "bin"
   spec.executables   = ["sitemap-gen"]
   spec.require_paths = ["lib"]
+
+  spec.add_dependency "nokogiri", "~> 1.8"
 
   spec.add_development_dependency "bundler", "~> 1.13"
   spec.add_development_dependency "rake", "~> 10.0"

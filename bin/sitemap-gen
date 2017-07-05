@@ -1,0 +1,41 @@
+#!/usr/bin/env ruby
+
+require 'sitemap_gen'
+require 'optparse'
+
+options = {}
+
+OptionParser.new do |opts|
+  opts.banner = <<-EOS
+
+A sitemap generator use directory structure input
+Usage: sitemap-gen [OPTION] PATH
+
+Options:
+  EOS
+
+  opts.on('-i', '--input [PATH]', 'Input directory that need to generate csv') do |path|
+    options[:input] = path
+  end
+
+  opts.on('-u', '--base_url [PATH]', 'Base url of website') do |path|
+    options[:base_url] = path
+  end
+
+  opts.on('-o', '--output [PATH]', 'Path to save output csv') do |path|
+    options[:output] = path
+  end
+
+  opts.on('-h', '--help', 'Display information') do |help|
+    puts opts
+    exit
+  end
+end.parse!
+
+if options.key?(:input) && options.key?(:base_url)
+  if options.key?(:output)
+    SitemapGen.run(options[:input], options[:base_url], options[:output])
+    exit
+  end
+  SitemapGen.run(options[:input], options[:base_url])
+end
