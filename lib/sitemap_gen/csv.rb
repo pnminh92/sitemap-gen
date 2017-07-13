@@ -43,7 +43,7 @@ module SitemapGen
 
       def html_page_title(file_path)
         html_doc = Nokogiri::HTML(File.read(file_path))
-        html_doc.css('head title').first.content
+        html_doc.css('head title')&.first&.content
       end
 
       def dir_levels(file_path)
