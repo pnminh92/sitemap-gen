@@ -26,7 +26,7 @@ Gem::Specification.new do |spec|
   spec.executables   = ["sitemap-gen"]
   spec.require_paths = ["lib"]
 
-  spec.add_dependency "nokogiri", "~> 1.8"
+  spec.add_dependency "nokogiri", "~> 1.6.8", ">= 1.6"
 
   spec.add_development_dependency "bundler", "~> 1.13"
   spec.add_development_dependency "rake", "~> 10.0"
