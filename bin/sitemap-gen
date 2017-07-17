@@ -27,7 +27,7 @@ Options:
   end
 
   opts.on('-f', '--format [PATH]', 'Path to dir that need to be formatted') do |path|
-    options[:output] = path
+    options[:format] = path
   end
 
   opts.on('-h', '--help', 'Display information') do |help|
