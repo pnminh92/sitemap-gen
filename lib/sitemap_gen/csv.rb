@@ -1,7 +1,5 @@
 module SitemapGen
-  class Csv
-    IGNORE_DIRS_REGEX = /img|cgi-bin|images|css|js/i
-
+  class CSV
     def initialize(dir_path, base_url, save_path)
       @dir_path = dir_path
       @base_url = base_url
@@ -12,8 +10,8 @@ module SitemapGen
       @sitemaps = create_sitemaps
     end
 
-    def generate
-      CSV.open("#{@save_path}/sitemap.csv", 'wb') do |csv|
+    def execute
+      ::CSV.open("#{@save_path}/sitemap.csv", 'wb') do |csv|
         csv << csv_header
         @sitemaps.each_with_index { |item, i| csv << csv_row(item, i) }
       end
@@ -24,7 +22,7 @@ module SitemapGen
       def create_sitemaps
         sitemaps = []
         @html_files.each do |f|
-          next if f =~ IGNORE_DIRS_REGEX
+          next if f =~ ::SitemapGen::IGNORE_DIRS_REGEX
           sitemaps.push({ url: @base_url + server_path(f), levels: dir_levels(f) })
         end
         sitemaps

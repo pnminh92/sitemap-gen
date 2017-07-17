@@ -1,9 +1,19 @@
 require 'nokogiri'
+require 'fileutils'
 require 'csv'
-require 'sitemap_gen/csv'
+
 
 module SitemapGen
-  def self.run(dir_path, base_url, save_path = nil)
-    SitemapGen::Csv.new(dir_path, base_url, save_path).generate
+  IGNORE_DIRS_REGEX = /img|cgi-bin|images|css|js/i
+
+  autoload :CSV, 'sitemap_gen/csv'
+  autoload :Fixer, 'sitemap_gen/fixer'
+
+  def self.generate(dir_path, base_url, save_path = nil)
+    CSV.new(dir_path, base_url, save_path).execute
+  end
+
+  def self.fix(dir_path)
+    Fixer.new(dir_path).execute
   end
 end
