@@ -26,6 +26,10 @@ Options:
     options[:output] = path
   end
 
+  opts.on('-f', '--format [PATH]', 'Path to dir that need to be formatted') do |path|
+    options[:output] = path
+  end
+
   opts.on('-h', '--help', 'Display information') do |help|
     puts opts
     exit
@@ -34,8 +38,10 @@ end.parse!
 
 if options.key?(:input) && options.key?(:base_url)
   if options.key?(:output)
-    SitemapGen.run(options[:input], options[:base_url], options[:output])
+    SitemapGen.generate(options[:input], options[:base_url], options[:output])
     exit
   end
-  SitemapGen.run(options[:input], options[:base_url])
+  SitemapGen.generate(options[:input], options[:base_url])
+elsif options.key?(:format)
+  SitemapGen.fix(options[:format])
 end
