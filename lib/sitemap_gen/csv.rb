@@ -21,22 +21,39 @@ module SitemapGen
 
       def create_sitemaps
         sitemaps = []
+        p 'Generating and checking page url...'
         @html_files.each do |f|
           next if f =~ ::SitemapGen::IGNORE_DIRS_REGEX
-          sitemaps.push({ url: @base_url + server_path(f), levels: dir_levels(f) })
+          page_url = @base_url + server_path(f)
+          p page_url
+          sitemaps.push({ url: page_url, levels: dir_levels(f), status: page_status(page_url) })
         end
+        p 'Finish generating url'
         sitemaps
       end
 
       def csv_header
         header = ['Id']
         @max_level.to_i.times.each { |l| header.push("Level #{l + 1}") }
-        header.push('Url')
+        header.push('Url').push('Status')
       end
 
       def csv_row(item, order_num)
-        gap = @max_level - item[:levels].values.size
-        [order_num + 1].concat(item[:levels].values).concat(Array.new(gap) { '' }).push(item[:url])
+        titles = item[:levels].values
+        gap = @max_level - titles.size
+        [order_num + 1].concat(titles)
+                       .concat(Array.new(gap) { '' })
+                       .push(item[:url], item[:status])
+      end
+
+      def page_status(page_url)
+        begin
+          page_uri = URI(page_url)
+          res = Net::HTTP.get_response(page_uri)
+          (res.code == '200' || res.code == '301') ? 'Passed' : 'Failed'
+        rescue URI::InvalidURIError
+          'Wrong format URL'
+        end
       end
 
       def html_page_title(file_path)
@@ -45,7 +62,6 @@ module SitemapGen
       end
 
       def dir_levels(file_path)
-        p file_path
         levels = {}
         order = 0
         dirs = server_path(file_path).split('/')

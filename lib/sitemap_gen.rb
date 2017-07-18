@@ -1,7 +1,8 @@
 require 'nokogiri'
 require 'fileutils'
 require 'csv'
-
+require 'net/http'
+require 'byebug'
 
 module SitemapGen
   IGNORE_DIRS_REGEX = /img|cgi-bin|images|css|js/i
