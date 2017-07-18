@@ -50,7 +50,7 @@ module SitemapGen
         begin
           page_uri = URI(page_url)
           res = Net::HTTP.get_response(page_uri)
-          (res.code == '200' || res.code == '301') ? 'Passed' : 'Failed'
+          ['200', '301', '302'].include?(res.code) ? 'Passed' : 'Failed'
         rescue URI::InvalidURIError
           'Wrong format URL'
         end
