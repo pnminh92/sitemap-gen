@@ -1,9 +1,10 @@
 module SitemapGen
   class CSV
-    def initialize(dir_path, base_url, save_path)
+    def initialize(dir_path, base_url, save_path, checking_url)
       @dir_path = dir_path
       @base_url = base_url
       @save_path = save_path || Dir.pwd
+      @checking_url = checking_url
       @max_level = 1
       @html_files = Dir.glob("#{dir_path}/**/index.html").sort_by { |f| File.dirname(f) }
       raise 'There is no index.html files in your directory' if @html_files.empty?
@@ -26,7 +27,8 @@ module SitemapGen
           next if f =~ ::SitemapGen::IGNORE_DIRS_REGEX
           page_url = @base_url + server_path(f)
           p page_url
-          sitemaps.push({ url: page_url, levels: dir_levels(f), status: page_status(page_url) })
+          sitemaps.push({ url: page_url, levels: dir_levels(f),
+                          status: checking_url ? page_status(page_url) : '' })
         end
         p 'Finish generating url'
         sitemaps

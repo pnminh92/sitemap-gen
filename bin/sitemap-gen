@@ -14,6 +14,10 @@ Usage: sitemap-gen [OPTION] PATH
 Options:
   EOS
 
+  opts.on('-c', '--checking_url', 'Check url wether or not valid url') do |path|
+    options[:checking_url] = true
+  end
+
   opts.on('-i', '--input [PATH]', 'Input directory that need to generate csv') do |path|
     options[:input] = path
   end
@@ -38,10 +42,10 @@ end.parse!
 
 if options.key?(:input) && options.key?(:base_url)
   if options.key?(:output)
-    SitemapGen.generate(options[:input], options[:base_url], options[:output])
+    SitemapGen.generate(options[:input], options[:base_url], options[:output], options[:checking_url])
     exit
   end
-  SitemapGen.generate(options[:input], options[:base_url])
+  SitemapGen.generate(options[:input], options[:base_url], nil, options[:checking_url])
 elsif options.key?(:format)
   SitemapGen.fix(options[:format])
 end
