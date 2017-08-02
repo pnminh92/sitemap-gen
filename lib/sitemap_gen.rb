@@ -10,8 +10,8 @@ module SitemapGen
   autoload :Fixer, 'sitemap_gen/fixer'
   autoload :XMLCrawler, 'sitemap_gen/xml_crawler'
 
-  def self.generate(dir_path, base_url, save_path = nil)
-    CSV.new(dir_path, base_url, save_path).execute
+  def self.generate(dir_path, base_url, save_path = nil, checking_url = false)
+    CSV.new(dir_path, base_url, save_path, checking_url).execute
   end
 
   def self.fix(dir_path)
