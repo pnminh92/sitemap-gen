@@ -28,7 +28,7 @@ module SitemapGen
           page_url = @base_url + server_path(f)
           p page_url
           sitemaps.push({ url: page_url, levels: dir_levels(f),
-                          status: checking_url ? page_status(page_url) : '' })
+                          status: @checking_url ? page_status(page_url) : '' })
         end
         p 'Finish generating url'
         sitemaps
